@@ -13,7 +13,7 @@ export default function Todos( ) {
     return(
         <div className='my-5 flex-row justify-center text-lg font-medium'>
             {
-                tasks.map(task=>(<h2 key={task.id}>{task.task}</h2>))
+                tasks && tasks.map(task=>(<h2 key={task.id}>{task.task}</h2>))
             }
         </div>
     )
