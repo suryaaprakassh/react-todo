@@ -1,5 +1,5 @@
 import React from "react";
-import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
+import { getDocs, collection, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { useState, useEffect } from "react";
 import { Todoeleement } from "./Todo-elemenet";
@@ -15,7 +15,16 @@ export default function Todos() {
 	}, [tasks]);
 	return (
 		<div className="my-5 flex-row justify-center text-lg font-medium">
-			{tasks && tasks.map((task) => <Todoeleement task={task.task} />)}
+			{tasks &&
+				tasks.map((task) => (
+					<Todoeleement
+						task={task.task}
+						btnfucntion={async () => {
+							setTasks(tasks.filter((current) => current !== task));
+							await deleteDoc(doc(db, "tasks", task.id));
+						}}
+					/>
+				))}
 		</div>
 	);
 }
