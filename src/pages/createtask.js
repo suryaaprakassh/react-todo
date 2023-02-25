@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../config/firebase.js";
 import Todos from "../components/Todo.js";
+import { useState } from "react";
 export const CreateTask = ({ user }) => {
 	const schema = yup.object().shape({
 		task: yup.string().required("Fuck a task bro.."),
@@ -18,6 +19,7 @@ export const CreateTask = ({ user }) => {
 		resolver: yupResolver(schema),
 	});
 	const taskRef = collection(db, "tasks");
+	const [currentNo, setCurrentNo] = useState(0);
 	async function createTask(data) {
 		await addDoc(taskRef, {
 			id: user?.uid,
@@ -25,6 +27,7 @@ export const CreateTask = ({ user }) => {
 			task: data.task,
 		});
 		reset();
+		setCurrentNo(currentNo + 1);
 	}
 	return (
 		<div id="main">
@@ -43,7 +46,7 @@ export const CreateTask = ({ user }) => {
 					<p style={{ color: "red" }}>{errors.task?.message}</p>
 				</form>
 			</div>
-			<Todos />
+			<Todos changeNo={currentNo} />
 		</div>
 	);
 };
