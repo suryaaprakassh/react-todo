@@ -8,7 +8,7 @@ import Todos from "../components/Todo.js";
 import { useState } from "react";
 export const CreateTask = ({ user }) => {
 	const schema = yup.object().shape({
-		task: yup.string().required("Fuck a task bro.."),
+		task: yup.string().required("Please enter a task"),
 	});
 	const {
 		register,
